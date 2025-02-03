@@ -3,10 +3,10 @@ pipeline {
     tools {
         maven 'mvn399'
     }
-    when {
-        branch "feature/*"
-    }
+    parameters { string(name: 'mvn_command_choice', choices: ['package', 'clean', 'test' , 'install'], description: 'choose something from choices list ') }.
+    
     stages {
+        /*
         stage('Source') {
             steps {
                 script {
@@ -14,15 +14,27 @@ pipeline {
                 }
             }
         }
+        */
+
+        stage('mvn command') {
+            steps {
+                sh "mvn ${params.mvn_command_choice}"
+            }
+        }
         stage('Package') {
+            when {
+        branch "feature/*"
+    }
             steps {
                 sh "mvn package"
             }
         }
+        /*
         stage('Test') {
             steps {
-                sh "mvn test"
+                echo "mvn test is start"
             }
         }
+        */
     }
 }
