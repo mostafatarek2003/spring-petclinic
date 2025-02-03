@@ -16,7 +16,7 @@ pipeline {
                 }
             }
         }
-        */
+        
 
         stage('Maven Command') {
             steps {
@@ -34,12 +34,12 @@ pipeline {
             }
         }
 
-        /*
-        stage('Test') {
-            steps {
-                echo "mvn test is start"
-            }
-        }
         */
+        stage('deploy') {
+            steps {
+                script{
+                sshPublisher(publishers: [sshPublisherDesc(configName: 'mostafa-server', transfers: [sshTransfer(cleanRemote: false, excludes: '', execCommand: '', execTimeout: 120000, flatten: false, makeEmptyDirs: false, noDefaultExcludes: false, patternSeparator: '[, ]+', remoteDirectory: '', remoteDirectorySDF: false, removePrefix: '', sourceFiles: 'mostafa_script.py')], usePromotionTimestamp: false, useWorkspaceInPromotion: false, verbose: false)])            }
+        }}
+        
     }
 }
