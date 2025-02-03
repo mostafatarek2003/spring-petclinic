@@ -3,6 +3,9 @@ pipeline {
     tools {
         maven 'mvn399'
     }
+    when {
+        branch "feature/*"
+    }
     stages {
         stage('Source') {
             steps {
