@@ -3,8 +3,10 @@ pipeline {
     tools {
         maven 'mvn399'
     }
-    parameters { string(name: 'mvn_command_choice', choices: ['package', 'clean', 'test' , 'install'], description: 'choose something from choices list ') }.
-    
+    parameters {
+        choice(name: 'mvn_command_choice', choices: ['package', 'clean', 'test', 'install'], description: 'Choose an option')
+    }
+
     stages {
         /*
         stage('Source') {
@@ -16,19 +18,21 @@ pipeline {
         }
         */
 
-        stage('mvn command') {
+        stage('Maven Command') {
             steps {
                 sh "mvn ${params.mvn_command_choice}"
             }
         }
+
         stage('Package') {
             when {
-        branch "feature/*"
-    }
+                expression { env.BRANCH_NAME.startsWith('feature/') }
+            }
             steps {
                 sh "mvn package"
             }
         }
+
         /*
         stage('Test') {
             steps {
